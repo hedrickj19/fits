@@ -10,9 +10,9 @@ LAST = "Davis"
 PASSWORD = "ballislife"
 
 print("################    DB TESTS   ###################")
-# Provided DB tests
-## No buckets to begin with
+## No user to begin with
 assert(len(db.getUsers()) == 0)
+
 ## Adding a user
 db.addUser(username = USERNAME, first = FIRST, last = LAST, password = PASSWORD)
 assert(len(db.getUsers()) == 1)
@@ -22,3 +22,12 @@ assert(user.username == USERNAME)
 assert(user.password == PASSWORD)
 assert(db.getUsers()[0] is user)
 db.commit()
+
+## Deleting the user
+db.deleteUser(user)
+user = db.getUser(USERNAME)
+assert(user is None)
+db.commit()
+
+## Re-adding user for further tests
+user = db.addUser(username = USERNAME, first = FIRST, last = LAST, password = PASSWORD)
