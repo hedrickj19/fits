@@ -54,5 +54,5 @@ db.commit()
 ## Deleting the type
 db.deleteType(type)
 type = db.getType(TYPE_NAME)
-assert(type is none)
+assert(type is None)
 db.commit()
