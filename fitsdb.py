@@ -87,3 +87,38 @@ class Db:
 
    def deleteUser(self, user):
       self.session.delete(user)
+
+   def getTypes(self):
+      return self.session.query(Type).all()
+
+   def getType(self, id):
+      return self.session.query(Type)\
+         .filter_by(id = id)\
+         .one_or_none()
+
+   def addType(self, id, name):
+      type = Type(id = id, name = name)
+      self.session.add(type)
+      return type
+
+   def deleteType(self, type):
+      return self.session.delete(type)
+
+   def getLocations(self):
+      return self.session.query(Location).all()
+
+   def getLocation(self, id):
+      return self.session.query(Location)\
+         .filter_by(id = id)\
+         .one_or_none()
+
+   def addLocation(self, id, name):
+      location = Location(id = id, name = name)
+      self.session.add(location)
+      return location
+
+   def deleteLocation(self, location):
+      return self.session.delete(location)
+
+
+
