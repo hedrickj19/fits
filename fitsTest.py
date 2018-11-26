@@ -13,3 +13,5 @@ print("################    DB TESTS   ###################")
 # Provided DB tests
 ## No buckets to begin with
 assert(len(db.getUsers()) == 0)
+## Adding a user
+db.addUser()
