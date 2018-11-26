@@ -22,7 +22,7 @@ assert(user.username == USERNAME)
 assert(user.password == PASSWORD)
 assert(user.first == FIRST)
 assert(user.last == LAST)
-assert(db.getUSER(USERNAME + "pigcow") is None)
+assert(db.getUser(USERNAME + "pigcow") is None)
 assert(db.getUsers()[0] is user)
 db.commit()
 
