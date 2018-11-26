@@ -8,6 +8,8 @@ USERNAME = "davish20"
 FIRST = "Hananiah"
 LAST = "Davis"
 PASSWORD = "ballislife"
+ID = 1
+TYPE_NAME = "Email"
 
 print("################    DB TESTS   ###################")
 ## No user to begin with
@@ -34,3 +36,23 @@ db.commit()
 
 ## Re-adding user for further tests
 user = db.addUser(username = USERNAME, first = FIRST, last = LAST, password = PASSWORD)
+
+## No types to begin with
+assert(len(db.getTypes()) == 0)
+
+## Adding a type
+db.addType(id = ID, name = TYPE_NAME)
+assert(len(db.getTypes()) == 1)
+type = db.getType(ID)
+assert(type is not None)
+assert(type.id == ID)
+assert(type.name = TYPE_NAME)
+assert(db.getType(ID + 3) is None)
+assert(db.getTypes()[0] is type)
+db.commit()
+
+## Deleting the type
+db.deleteType(type)
+type = db.getType(TYPE_NAME)
+assert(type is none)
+db.commit()
