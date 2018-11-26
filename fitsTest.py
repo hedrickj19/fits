@@ -14,4 +14,11 @@ print("################    DB TESTS   ###################")
 ## No buckets to begin with
 assert(len(db.getUsers()) == 0)
 ## Adding a user
-db.addUser()
+db.addUser(username = USERNAME, first = FIRST, last = LAST, password = PASSWORD)
+assert(len(db.getUsers()) == 1)
+user = db.getUser(USERNAME)
+assert(user is not None)
+assert(user.username == USERNAME)
+assert(user.password == PASSWORD)
+assert(db.getUsers()[0] is user)
+db.commit()
