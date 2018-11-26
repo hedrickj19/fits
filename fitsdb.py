@@ -10,7 +10,7 @@ class User(Base):
    __tablename__ = 'users'
    
    username = Column(String, nullable = False, primary_key = True, unique = True)
-   first = Column(String, nullabe = False)
+   first = Column(String, nullable = False)
    last = Column(String, nullable = False)
    password = Column(String, nullable = False)
 
@@ -28,9 +28,9 @@ class Issue(Base):
    
    id = Column(String, nullable = False, primary_key = True)
    userId = Column(String, ForeignKey(User.username, ondelete = "CASCADE"), nullable = False)
-   type = Column(String, ForeignKey(Type.name, ondelete = "CASCADE") nullable = False)
+   type = Column(String, ForeignKey("types.name", ondelete = "CASCADE"), nullable = False)
    description = Column(String, nullable = True)
-   location = Column(String, ForeignKey(Location.name, ondelete = "CASCADE") nullable = True)
+   location = Column(String, ForeignKey("locations.name", ondelete = "CASCADE"), nullable = True)
 
    user = relationship("User", back_populates="issues")
 
