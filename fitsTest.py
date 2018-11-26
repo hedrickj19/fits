@@ -10,6 +10,8 @@ LAST = "Davis"
 PASSWORD = "ballislife"
 ID = 1
 TYPE_NAME = "Email"
+ID_LOCATION = 2
+LOCATION_NAME = "Science Center"
 
 print("################    DB TESTS   ###################")
 ## No user to begin with
@@ -56,3 +58,29 @@ db.deleteType(type)
 type = db.getType(TYPE_NAME)
 assert(type is None)
 db.commit()
+
+## Re-adding type for further tests
+type = db.addType(id = ID, name = TYPE_NAME)
+
+## No location to begin with
+assert(len(db.getLocations()) == 0)
+
+## Adding a type
+db.addLocation(id = ID_LOCATION, name = LOCATION_NAME)
+assert(len(db.getLocations()) == 1)
+location = db.getLoaction(ID_LOCATION)
+assert(location is not None)
+assert(location.id == ID_LOCATION)
+assert(location.name == LOCATION_NAME)
+assert(db.getLocation(ID_LOCATION + 3) is None)
+assert(db.getLocations()[0] is location)
+db.commit()
+
+## Deleting the type
+db.deleteLocation(location)
+location = db.getLocation(LOCATION_NAME)
+assert(location is None)
+db.commit()
+
+## Re-adding location for further tests
+location = db.addLocation(id = ID_LOCATION, name = LOCATION_NAME)
