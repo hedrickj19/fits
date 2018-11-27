@@ -12,6 +12,11 @@ ID = 1
 TYPE_NAME = "Email"
 ID_LOCATION = 2
 LOCATION_NAME = "Science Center"
+ID2 = 3
+USER_ID = 4
+TYPE_NAME2 = "Phone"
+
+## ADD MORE TYPES AND LOCATIONS FOR TESTS ##
 
 print("################    DB TESTS   ###################")
 ## No user to begin with
@@ -84,3 +89,25 @@ db.commit()
 
 ## Re-adding location for further tests
 location = db.addLocation(id = ID_LOCATION, name = LOCATION_NAME)
+
+## Adding an issue
+db.addIssue(id = ID2, userId = USER_ID, type = TYPE_NAME2 , location = LOCATION_NAME)
+assert(len(db.getIssues()) == 1)
+issue = db.getIssue(id = ID2)
+assert(issue is not None)
+assert(issue.id == ID2)
+assert(issue.userId == USER_ID)
+assert(issue.type == TYPE_NAME2)
+assert(issue.location == LOCATION_NAME)
+assert(db.getIssue(ID2 + 10) is None)
+assert(db.getIssues()[0] is issue)
+db.commit()
+
+## Deleting the issue
+db.deleteIssue(issue)
+issue = db.getIssue(ID2)
+assert(issue is None)
+db.commit()
+
+## Readding the issue for further tests
+issue = db.addIssue(id = ID2, userId = USER_ID, type = TYPE_NAME2 , location = LOCATION_NAME)
