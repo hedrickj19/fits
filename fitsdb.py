@@ -120,5 +120,22 @@ class Db:
    def deleteLocation(self, location):
       return self.session.delete(location)
 
+   def getIssues(self):
+      return self.session.query(Issue).all()
+
+   def getIssue(self, id):
+      return self.session.query(Issue)\
+         .filter_by(id = id)
+         .one_or_none()
+
+   def addIssue(self,id, userId, type, description=None, location=None):
+      issue = Issue(id = id, userId = userId, description = description, location = location)
+      self.session.add(issue)
+      return issue
+
+   def deleteIssue(self, issue):
+      return self.session.delete(issue)
+
+
 
 
