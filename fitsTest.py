@@ -130,7 +130,7 @@ db.commit()
 
 ## Deleting the issue
 db.deleteIssue(issue)
-issue = db.getIssue(ID2)
+issue = db.getIssue(ID_ISSUE)
 assert(issue is None)
 db.commit()
 
@@ -296,7 +296,7 @@ client = app.test_client()
 #testing the user_list funciton
 r = client.get('/user')
 assert(r.status_code == 200)
-assert(len(r.json['users']) == 1)
+assert(len(r.json['users']) == 4)
 assert("users" in r.json and "link" in r.json["users"][0] and "username" in r.json["users"][0] and "first" in r.json['users'][0] and "last" in r.json['users'][0])
 assert(r.json['users'][0]["username"] == "davish20")
 assert(r.json['users'][0]["last"] == "Davis")
