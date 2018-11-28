@@ -25,7 +25,10 @@ def forbidden(e):
 def client_error(e):
    return make_json_response({ 'error': e.description }, 400)
 
-
+## Helper method for creating JSON responses
+def make_json_response(content, response = 200, headers = {}):
+   headers['Content-Type'] = 'application/json'
+   return make_response(json.dumps(content), response, headers)
 
 
 
