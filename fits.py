@@ -30,7 +30,21 @@ def make_json_response(content, response = 200, headers = {}):
    headers['Content-Type'] = 'application/json'
    return make_response(json.dumps(content), response, headers)
 
+#### MAIN ROUTES
 
+@app.route('/user', methods = ['GET'])
+def user_list():
+   users = db.getUsers()
+   return make_json_response({
+      "users": [
+         {
+            "link": url_for('find_user', username = user.username) ,
+            "username" : user.username,
+            "first" : user.first,
+            "last" : user.last}
+         for user in users
+      ]
+   })
 
 # Starts the application
 if __name__ == "__main__":
