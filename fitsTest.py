@@ -73,13 +73,13 @@ user = db.addUser(username = USERNAME, first = FIRST, last = LAST, password = PA
 assert(len(db.getTypes()) == 0)
 
 ## Adding a type
-db.addType(id = ID, name = TYPE_NAME)
+db.addType(id = ID_TYPE, name = TYPE_NAME)
 assert(len(db.getTypes()) == 1)
-type = db.getType(ID)
+type = db.getType(ID_TYPE)
 assert(type is not None)
-assert(type.id == ID)
+assert(type.id == ID_TYPE)
 assert(type.name == TYPE_NAME)
-assert(db.getType(ID + 3) is None)
+assert(db.getType(ID_TYPE + 1000) is None)
 assert(db.getTypes()[0] is type)
 db.commit()
 
@@ -90,12 +90,12 @@ assert(type is None)
 db.commit()
 
 ## Re-adding type for further tests
-type = db.addType(id = ID, name = TYPE_NAME)
+type = db.addType(id = ID_TYPE, name = TYPE_NAME)
 
 ## No location to begin with
 assert(len(db.getLocations()) == 0)
 
-## Adding a type
+## Adding a location
 db.addLocation(id = ID_LOCATION, name = LOCATION_NAME)
 assert(len(db.getLocations()) == 1)
 location = db.getLocation(ID_LOCATION)
@@ -106,7 +106,7 @@ assert(db.getLocation(ID_LOCATION + 3) is None)
 assert(db.getLocations()[0] is location)
 db.commit()
 
-## Deleting the type
+## Deleting the location
 db.deleteLocation(location)
 location = db.getLocation(LOCATION_NAME)
 assert(location is None)
@@ -116,15 +116,15 @@ db.commit()
 location = db.addLocation(id = ID_LOCATION, name = LOCATION_NAME)
 
 ## Adding an issue
-db.addIssue(id = ID2, userId = USERNAME, type = TYPE_NAME2 , location = LOCATION_NAME)
+db.addIssue(id = ID_ISSUE, userId = USERNAME, type = TYPE_NAME , location = LOCATION_NAME)
 assert(len(db.getIssues()) == 1)
-issue = db.getIssue(id = ID2)
+issue = db.getIssue(id = ID_ISSUE)
 assert(issue is not None)
-assert(issue.id == ID2)
+assert(issue.id == ID_ISSUE)
 assert(issue.userId == USERNAME)
-assert(issue.type == TYPE_NAME2)
+assert(issue.type == TYPE_NAME)
 assert(issue.location == LOCATION_NAME)
-assert(db.getIssue(ID2 + 10) is None)
+assert(db.getIssue(ID_ISSUE + 1000) is None)
 assert(db.getIssues()[0] is issue)
 db.commit()
 
@@ -135,7 +135,7 @@ assert(issue is None)
 db.commit()
 
 ## Readding the issue for further tests
-issue = db.addIssue(id = ID2, userId = USERNAME, type = TYPE_NAME2 , location = LOCATION_NAME)
+issue = db.addIssue(id = ID_ISSUE, userId = USERNAME, type = TYPE_NAME , location = LOCATION_NAME)
 
 #############################################################
 
