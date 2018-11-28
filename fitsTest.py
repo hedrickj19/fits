@@ -110,3 +110,11 @@ db.commit()
 
 ## Readding the issue for further tests
 issue = db.addIssue(id = ID2, userId = USERNAME, type = TYPE_NAME2 , location = LOCATION_NAME)
+
+
+print("################ DB TESTS DONE ###################")
+# Provided API tests
+print("################   API TESTS   ###################")
+
+app.config['TESTING'] = True
+client = app.test_client()
