@@ -50,7 +50,7 @@ def user_list():
 def find_user(username):
    user = findUser(username)
    password = getPasswordFromQuery()
-   checkPassword(bucket, password)
+   checkPassword(user, password)
    return make_json_response({
       "username" : user.username,
       "link" : url_for('find_user', username = user.username),
