@@ -13,7 +13,6 @@ TYPE_NAME = "Email"
 ID_LOCATION = 2
 LOCATION_NAME = "Science Center"
 ID2 = 3
-USER_ID = 4
 TYPE_NAME2 = "Phone"
 
 ## ADD MORE TYPES AND LOCATIONS FOR TESTS ##
@@ -91,12 +90,12 @@ db.commit()
 location = db.addLocation(id = ID_LOCATION, name = LOCATION_NAME)
 
 ## Adding an issue
-db.addIssue(id = ID2, userId = USER_ID, type = TYPE_NAME2 , location = LOCATION_NAME)
+db.addIssue(id = ID2, userId = USERNAME, type = TYPE_NAME2 , location = LOCATION_NAME)
 assert(len(db.getIssues()) == 1)
 issue = db.getIssue(id = ID2)
 assert(issue is not None)
 assert(issue.id == ID2)
-assert(issue.userId == USER_ID)
+assert(issue.userId == USERNAME)
 assert(issue.type == TYPE_NAME2)
 assert(issue.location == LOCATION_NAME)
 assert(db.getIssue(ID2 + 10) is None)
@@ -110,4 +109,4 @@ assert(issue is None)
 db.commit()
 
 ## Readding the issue for further tests
-issue = db.addIssue(id = ID2, userId = USER_ID, type = TYPE_NAME2 , location = LOCATION_NAME)
+issue = db.addIssue(id = ID2, userId = USERNAME, type = TYPE_NAME2 , location = LOCATION_NAME)
