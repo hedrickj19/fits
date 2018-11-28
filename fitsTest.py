@@ -8,12 +8,38 @@ USERNAME = "davish20"
 FIRST = "Hananiah"
 LAST = "Davis"
 PASSWORD = getHash("ballislife")
-ID = 1
+USERNAME2 = "monnine20"
+FIRST2 = "Ethan"
+LAST2 = "Monnin"
+PASSWORD2 = getHash("poleislife")
+USERNAME3 = "mundth19"
+FIRST3 = "Hannah"
+LAST3 = "Mundt"
+PASSWORD3 = getHash("laxislife")
+USERNAME4 = "caldwellp20"
+FIRST4 = "Paxton"
+LAST4 = "Caldwell"
+PASSWORD4 = getHash("javislife")
+ID_TYPE = 1
+ID_TYPE2 = 2
+ID_TYPE3 = 3
+ID_TYPE4 = 4
 TYPE_NAME = "Email"
-ID_LOCATION = 2
-LOCATION_NAME = "Science Center"
-ID2 = 3
 TYPE_NAME2 = "Phone"
+TYPE_NAME3 = "Laptop"
+TYPE_NAME4 = "Classroom"
+ID_LOCATION = 5
+ID_LOCATION2 = 6
+ID_LOCATION3 = 7
+ID_LOCATION4 = 8
+LOCATION_NAME = "Science Center"
+LOCATION_NAME2 = "Classic Hall"
+LOCATION_NAME3 = "Library"
+LOCATION_NAME4 = "CFA"
+ID_ISSUE = 9
+ID_ISSUE2 = 10
+ID_ISSUE3 = 11
+ID_ISSUE4 = 12
 
 ## ADD MORE TYPES AND LOCATIONS FOR TESTS ##
 
@@ -111,6 +137,155 @@ db.commit()
 ## Readding the issue for further tests
 issue = db.addIssue(id = ID2, userId = USERNAME, type = TYPE_NAME2 , location = LOCATION_NAME)
 
+#############################################################
+
+## Adding a second user
+db.addUser(username = USERNAME2, first = FIRST2, last = LAST2, password = PASSWORD2)
+assert(len(db.getUsers()) == 2)
+user = db.getUser(USERNAME2)
+assert(user is not None)
+assert(user.username == USERNAME2)
+assert(user.password == PASSWORD2)
+assert(user.first == FIRST2)
+assert(user.last == LAST2)
+assert(db.getUser(USERNAME2 + "pigcow") is None)
+assert(db.getUsers()[1] is user)
+db.commit()
+
+## Adding a second type
+db.addType(id = ID_TYPE2, name = TYPE_NAME2)
+assert(len(db.getTypes()) == 2)
+type = db.getType(ID_TYPE2)
+assert(type is not None)
+assert(type.id == ID_TYPE2)
+assert(type.name == TYPE_NAME2)
+assert(db.getType(ID_TYPE2 + 1000) is None)
+assert(db.getTypes()[1] is type)
+db.commit()
+
+## Adding a second location
+db.addLocation(id = ID_LOCATION2, name = LOCATION_NAME2)
+assert(len(db.getLocations()) == 2)
+location = db.getLocation(ID_LOCATION2)
+assert(location is not None)
+assert(location.id == ID_LOCATION2)
+assert(location.name == LOCATION_NAME2)
+assert(db.getLocation(ID_LOCATION2 + 1000) is None)
+assert(db.getLocations()[1] is location)
+db.commit()
+
+## Adding a second issue
+db.addIssue(id = ID_ISSUE2, userId = USERNAME2, type = TYPE_NAME2 , location = LOCATION_NAME2)
+assert(len(db.getIssues()) == 2)
+issue = db.getIssue(id = ID_ISSUE2)
+assert(issue is not None)
+assert(issue.id == ID_ISSUE2)
+assert(issue.userId == USERNAME2)
+assert(issue.type == TYPE_NAME2)
+assert(issue.location == LOCATION_NAME2)
+assert(db.getIssue(ID_ISSUE2 + 1000) is None)
+assert(db.getIssues()[1] is issue)
+db.commit()
+
+#########################################################
+
+## Adding a third user
+db.addUser(username = USERNAME3, first = FIRST3, last = LAST3, password = PASSWORD3)
+assert(len(db.getUsers()) == 3)
+user = db.getUser(USERNAME3)
+assert(user is not None)
+assert(user.username == USERNAME3)
+assert(user.password == PASSWORD3)
+assert(user.first == FIRST3)
+assert(user.last == LAST3)
+assert(db.getUser(USERNAME3 + "pigcow") is None)
+assert(db.getUsers()[2] is user)
+db.commit()
+
+## Adding a third type
+db.addType(id = ID_TYPE3, name = TYPE_NAME3)
+assert(len(db.getTypes()) == 3)
+type = db.getType(ID_TYPE3)
+assert(type is not None)
+assert(type.id == ID_TYPE3)
+assert(type.name == TYPE_NAME3)
+assert(db.getType(ID_TYPE3 + 1000) is None)
+assert(db.getTypes()[2] is type)
+db.commit()
+
+## Adding a third location
+db.addLocation(id = ID_LOCATION3, name = LOCATION_NAME3)
+assert(len(db.getLocations()) == 3)
+location = db.getLocation(ID_LOCATION3)
+assert(location is not None)
+assert(location.id == ID_LOCATION3)
+assert(location.name == LOCATION_NAME3)
+assert(db.getLocation(ID_LOCATION3 + 1000) is None)
+assert(db.getLocations()[2] is location)
+db.commit()
+
+## Adding a third issue
+db.addIssue(id = ID_ISSUE3, userId = USERNAME3, type = TYPE_NAME3 , location = LOCATION_NAME3)
+assert(len(db.getIssues()) == 3)
+issue = db.getIssue(id = ID_ISSUE3)
+assert(issue is not None)
+assert(issue.id == ID_ISSUE3)
+assert(issue.userId == USERNAME3)
+assert(issue.type == TYPE_NAME3)
+assert(issue.location == LOCATION_NAME3)
+assert(db.getIssue(ID_ISSUE3 + 1000) is None)
+assert(db.getIssues()[2] is issue)
+db.commit()
+
+##############################################################
+
+## Adding a fourth user
+db.addUser(username = USERNAME4, first = FIRST4, last = LAST4, password = PASSWORD4)
+assert(len(db.getUsers()) == 4)
+user = db.getUser(USERNAME4)
+assert(user is not None)
+assert(user.username == USERNAME4)
+assert(user.password == PASSWORD4)
+assert(user.first == FIRST4)
+assert(user.last == LAST4)
+assert(db.getUser(USERNAME4 + "pigcow") is None)
+assert(db.getUsers()[3] is user)
+db.commit()
+
+## Adding a fourth type
+db.addType(id = ID_TYPE4, name = TYPE_NAME4)
+assert(len(db.getTypes()) == 4)
+type = db.getType(ID_TYPE4)
+assert(type is not None)
+assert(type.id == ID_TYPE4)
+assert(type.name == TYPE_NAME4)
+assert(db.getType(ID_TYPE4 + 1000) is None)
+assert(db.getTypes()[3] is type)
+db.commit()
+
+## Adding a fourth location
+db.addLocation(id = ID_LOCATION4, name = LOCATION_NAME4)
+assert(len(db.getLocations()) == 4)
+location = db.getLocation(ID_LOCATION4)
+assert(location is not None)
+assert(location.id == ID_LOCATION4)
+assert(location.name == LOCATION_NAME4)
+assert(db.getLocation(ID_LOCATION4 + 1000) is None)
+assert(db.getLocations()[3] is location)
+db.commit()
+
+## Adding a fourth issue
+db.addIssue(id = ID_ISSUE4, userId = USERNAME4, type = TYPE_NAME4, location = LOCATION_NAME4)
+assert(len(db.getIssues()) == 4)
+issue = db.getIssue(id = ID_ISSUE4)
+assert(issue is not None)
+assert(issue.id == ID_ISSUE4)
+assert(issue.userId == USERNAME4)
+assert(issue.type == TYPE_NAME4)
+assert(issue.location == LOCATION_NAME4)
+assert(db.getIssue(ID_ISSUE4 + 1000) is None)
+assert(db.getIssues()[3] is issue)
+db.commit()
 
 print("################ DB TESTS DONE ###################")
 # Provided API tests
