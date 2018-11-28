@@ -65,6 +65,10 @@ def find_user(username):
          for issue in user.issues]
       })
 
+@app.route('/issue/<id>', methods = ['GET'])
+def find_issue(id):
+   return True
+
 
 
 
