@@ -46,6 +46,48 @@ def user_list():
       ]
    })
 
+@app.route('/user/<username>', methods = ['GET'])
+def find_user(username):
+   user = findUser(username)
+   password = getPasswordFromQuery()
+   checkPassword(bucket, password)
+   return make_json_response({
+      "username" : user.username,
+      "link" : url_for('find_user', username = user.username),
+      "first" : user.first,
+      "last" : user.last,
+      "issues" : [
+      {
+         "id" : issue.id,
+         "link" : url_for('find_issue', id = issue.id),
+         "description" : issue.description,
+         "location" : issue.location}
+         for issue in user.issues]
+      })
+
+
+
+
+
+#Helper functions
+def findUser(username):
+   user = db.getUser(username)
+   if user is None:
+      abort(404, "username not found in the database")
+   return user
+
+##Helper functions used for user verification
+def getPasswordFromQuery():
+   if "password" not in request.args:
+      abort(403, 'must provide a password parameter')
+   return request.args["password"]
+
+#Helper function that checks if a given password is correct
+def checkPassword(user, password):
+   hash = getHash(password)
+   if hash != user.password:
+      abort(403, "Incorrect password.")
+
 # Starts the application
 if __name__ == "__main__":
    app.run()
