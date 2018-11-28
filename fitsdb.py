@@ -26,7 +26,7 @@ class User(Base):
 class Issue(Base):
    __tablename__ = 'issues'
    
-   id = Column(String, nullable = False, primary_key = True)
+   id = Column(Integer, nullable = False, primary_key = True)
    userId = Column(String, ForeignKey(User.username, ondelete = "CASCADE"), nullable = False)
    type = Column(String, ForeignKey("types.name", ondelete = "CASCADE"), nullable = False)
    description = Column(String, nullable = True)
@@ -125,11 +125,11 @@ class Db:
 
    def getIssue(self, id):
       return self.session.query(Issue)\
-         .filter_by(id = id)
+         .filter_by(id = id)\
          .one_or_none()
 
    def addIssue(self,id, userId, type, description=None, location=None):
-      issue = Issue(id = id, userId = userId, description = description, location = location)
+      issue = Issue(id = id, userId = userId, type = type, description = description, location = location)
       self.session.add(issue)
       return issue
 
