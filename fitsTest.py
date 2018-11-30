@@ -365,12 +365,15 @@ assert(r.status_code == 200)
 assert(len(r.json['types']) == 4)
 assert('types' in r.json and "link" in r.json['types'][0] and 'id' in r.json['types'][0] and 'name' in r.json['types'][0])
 assert(r.json['types'][0]["name"] == "Email")
-assert(r.json['types'][0]["id"] == "1")
+assert(r.json['types'][0]["id"] == 1)
 
-#Test for the find_user function
+#Test for the find_type function
 r = client.get('/type/1')
 assert(r.status_code == 200)
 assert(r.json['name'] == "Email")
-assert(r.json['id'] == "1")
+assert(r.json['id'] == 1)
+r = client.get('/type/988')
+assert(r.status_code == 404)
+assert(r.json['error'] == "typeId not found")
 
 print("################ API TESTS DONE  #################")
