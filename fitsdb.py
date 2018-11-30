@@ -33,6 +33,8 @@ class Issue(Base):
    location = Column(String, ForeignKey("locations.name", ondelete = "CASCADE"), nullable = True)
 
    user = relationship("User", back_populates="issues")
+   typeInfo = relationship("Type", back_populates="issues")
+   locationInfo = relationship("Location", back_populates="issues")
 
    # def __repr__(self):
    #    shortcut_str = "Link Hash: " + self.linkHash + "\nBucker ID: " + self.bucketId + "\nLink: "\
@@ -45,11 +47,15 @@ class Type(Base):
    id = Column(Integer, nullable = False, primary_key = True)
    name = Column(String, nullable = False, unique = True)
 
+   issues = relationship("Issue", back_populates="typeInfo")
+
 class Location(Base):
    __tablename__ = 'locations'
 
    id = Column(Integer, nullable = False, primary_key = True)
    name = Column(String, nullable = False, unique = True)
+
+   issues = relationship("Issue", back_populates="locationInfo")
 
 
 
