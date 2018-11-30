@@ -75,6 +75,15 @@ def create_user_with_username(username):
    headers = {"Location" : url_for('find_user', username = username)}
    return make_json_response({ 'ok': 'user created' }, 201, headers)
 
+@app.route('/user/<username>', methods = ['DELETE'])
+def user_delete(username):
+   user = findUser(username)
+   password = getPasswordFromQuery()
+   checkPassword(user, password)
+   db.deleteUser(user)
+   db.commit()
+   return make_json_response({'ok' : 'user deleted'}, 204)
+
 @app.route('/issue/<id>', methods = ['GET'])
 def find_issue(id):
    return True
