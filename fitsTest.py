@@ -359,4 +359,18 @@ r  = client.get('/user/millerl19')
 assert(r.status_code == 404)
 assert(r.json['error'] == "username not found in the database")
 
+#Test for the get_type function
+r = client.get('/type')
+assert(r.status_code == 200)
+assert(len(r.json['types']) == 4)
+assert('types' in r.json and "link" in r.json['types'][0] and 'id' in r.json['types'][0] and 'name' in r.json['types'][0])
+assert(r.json['types'][0]["name"] == "Email")
+assert(r.json['types'][0]["id"] == "1")
+
+#Test for the find_user function
+r = client.get('/type/1')
+assert(r.status_code == 200)
+assert(r.json['name'] == "Email")
+assert(r.json['id'] == "1")
+
 print("################ API TESTS DONE  #################")
