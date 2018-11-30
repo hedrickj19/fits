@@ -90,11 +90,37 @@ def findUser(username):
       abort(404, "username not found in the database")
    return user
 
+#Helper funciton used to see if a user already exsist when trying to make a new user
+def checkUserExsists(username):
+   user = db.getUser(username)
+   if user is not None:
+      abort(403, "There is already a user using this username.")
+   return user
+
 ##Helper functions used for user verification
 def getPasswordFromQuery():
    if "password" not in request.args:
       abort(403, 'must provide a password parameter')
    return request.args["password"]
+
+#Helper functions to get information from the json object passed through the request
+def getPasswordFromContents():
+   contents = request.get_json()
+   if contents is None or "password" not in contents:
+      abort(403, 'must provide a password field')
+   return contents["password"]
+
+def getFirstFromContents():
+   contents = request.get_json()
+   if "first" not in contents:
+      abort(403, 'must provide a first field')
+   return contents['first']
+
+def getLastFromContents():
+   contents = request.get_json()
+   if "last" not in contents:
+      abort(403, 'must provide a last field')
+   return contents['last']
 
 #Helper function that checks if a given password is correct
 def checkPassword(user, password):
