@@ -343,7 +343,20 @@ assert(r.json['error'] == 'must provide a first field')
 r = client.put("user/hedrickj19", json ={'first' : "Lucas", 'password' : "pdislife"})
 assert(r.status_code == 403)
 assert(r.json['error'] == 'must provide a last field')
-
-
+#Test for the user_delete function
+r = client.delete('/user/hedrickj19?password=pdislife')
+assert(r.status_code == 404)
+assert(r.json['error'] == "username not found in the database")
+r = client.delete('/user/millerl19')
+assert(r.status_code == 403)
+assert(r.json['error'] == 'must provide a password parameter')
+r = client.delete('user/millerl19?password=ballislife')
+assert(r.status_code == 403)
+assert(r.json['error'] == "Incorrect password.")
+r = client.delete("/user/millerl19?password=pdislife")
+assert(r.status_code == 204)
+r  = client.get('/user/millerl19')
+assert(r.status_code == 404)
+assert(r.json['error'] == "username not found in the database")
 
 print("################ API TESTS DONE  #################")
