@@ -65,6 +65,16 @@ def find_user(username):
          for issue in user.issues]
       })
 
+@app.route('/user/<username>', methods = ['PUT'])
+def create_user_with_username(username):
+   user = checkUserExsists(username)
+   password = getPasswordFromContents()
+   first_name = getFirstFromContents()
+   last_name = getLastFromContents()
+   db.addUser(username, first_name, last_name, getHash(password))
+   headers = {"Location" : url_for('find_user', username = username)}
+   return make_json_response({ 'ok': 'user created' }, 201, headers)
+
 @app.route('/issue/<id>', methods = ['GET'])
 def find_issue(id):
    return True
