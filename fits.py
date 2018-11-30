@@ -115,6 +115,23 @@ def find_type(id):
          for issue in type.issues]
       })
 
+@app.route('/type/<id>', methods = ['PUT'])
+def create_type_with_id(id):
+   id = checkTypeExsists(id)
+   name = getNameFromContents()
+   db.addType(id, name)
+   headers = {"Location" : url_for('find_type', id = id)}
+   return make_json_response({ 'ok': 'type created' }, 201, headers)
+
+@app.route('/type/<id>', methods = ['DELETE'])
+def type_delete(username):
+   type = findType(id)
+   checkPassword(type)
+   db.deleteType(type)
+   db.commit()
+   return make_json_response({'ok' : 'type deleted'}, 204)
+
+
 @app.route('/issue/<id>', methods = ['GET'])
 def find_issue(id):
    return True
@@ -143,6 +160,14 @@ def checkUserExsists(username):
       abort(403, "There is already a user using this username.")
    return user
 
+def checkTypeExsists(id):
+   type = db.getType(id)
+   if type is not None:
+      abort(403, "There is already a type using this id.")
+   return type
+
+
+
 ##Helper functions used for user verification
 def getPasswordFromQuery():
    if "password" not in request.args:
@@ -167,6 +192,12 @@ def getLastFromContents():
    if "last" not in contents:
       abort(403, 'must provide a last field')
    return contents['last']
+
+def getNameFromContents():
+   contents = request.get_json()
+   if "name" not in contents:
+      abort(403, 'must provide a name field')
+   return contents['name']
 
 #Helper function that checks if a given password is correct
 def checkPassword(user, password):
