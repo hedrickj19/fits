@@ -32,6 +32,7 @@ def make_json_response(content, response = 200, headers = {}):
 
 #### MAIN ROUTES
 
+#### User Table Paths
 @app.route('/user', methods = ['GET'])
 def user_list():
    users = db.getUsers()
@@ -84,6 +85,36 @@ def user_delete(username):
    db.commit()
    return make_json_response({'ok' : 'user deleted'}, 204)
 
+#### Type Table Paths
+@app.route('/type', methods = ['GET'])
+def type_list():
+   types = db.getTypes()
+   return make_json_response({
+      "types": [
+         {
+            "link": url_for('find_type', id = type.id) ,
+            "id" : type.id,
+            "name" : type.name}
+         for type in types
+      ]
+   })
+
+@app.route('/type/<id>', methods = ['GET'])
+def find_type(id):
+   type = findType(id)
+   return make_json_response({
+      "id" : type.id,
+      "link" : url_for('find_type', id = type.id),
+      "name" : type.name,
+      "issues" : [
+      {
+         "id" : issue.id,
+         "link" : url_for('find_issue', id = issue.id),
+         "description" : issue.description,
+         "location" : issue.location}
+         for issue in type.issues]
+      })
+
 @app.route('/issue/<id>', methods = ['GET'])
 def find_issue(id):
    return True
@@ -98,6 +129,12 @@ def findUser(username):
    if user is None:
       abort(404, "username not found in the database")
    return user
+
+def findType(id):
+   type = db.getType(id)
+   if type is None:
+      abort(404, "typeId not found")
+   return type
 
 #Helper funciton used to see if a user already exsist when trying to make a new user
 def checkUserExsists(username):
