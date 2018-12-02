@@ -1,6 +1,7 @@
 from flask import Flask, request, make_response, json, url_for, abort
 from fitsdb import Db   # See db.py
 from utils import makeId, getHash
+import random
 
 app = Flask(__name__)
 db = Db()
@@ -123,6 +124,11 @@ def create_type_with_id(id):
    headers = {"Location" : url_for('find_type', id = id)}
    return make_json_response({ 'ok': 'type created' }, 201, headers)
 
+@app.route('/type', methods = ['POST'])
+def create_type():
+   id = generateID("type")
+   return create_type_with_id(id)
+
 @app.route('/type/<id>', methods = ['DELETE'])
 def type_delete(id):
    type = findType(id)
@@ -203,6 +209,17 @@ def checkPassword(user, password):
    hash = getHash(password)
    if hash != user.password:
       abort(403, "Incorrect password.")
+
+#Helper Function to Generate a random id
+def generateID(table):
+   id = random.randint(1,10000)
+   if table == "type":
+      while db.getType(id) is not None:
+         id = random.randint(1,10000)
+   if table == "location":
+      while db.getLocation(id) is not None:
+         id = random.randint(1,10000)
+   return id
 
 # Starts the application
 if __name__ == "__main__":
