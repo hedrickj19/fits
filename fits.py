@@ -117,16 +117,15 @@ def find_type(id):
 
 @app.route('/type/<id>', methods = ['PUT'])
 def create_type_with_id(id):
-   id = checkTypeExsists(id)
+   type = checkTypeExsists(id)
    name = getNameFromContents()
-   db.addType(id, name)
+   db.addType(type, name)
    headers = {"Location" : url_for('find_type', id = id)}
    return make_json_response({ 'ok': 'type created' }, 201, headers)
 
 @app.route('/type/<id>', methods = ['DELETE'])
-def type_delete(username):
+def type_delete(id):
    type = findType(id)
-   checkPassword(type)
    db.deleteType(type)
    db.commit()
    return make_json_response({'ok' : 'type deleted'}, 204)
@@ -195,7 +194,7 @@ def getLastFromContents():
 
 def getNameFromContents():
    contents = request.get_json()
-   if "name" not in contents:
+   if contents is None or "name" not in contents:
       abort(403, 'must provide a name field')
    return contents['name']
 
