@@ -416,8 +416,7 @@ assert(len(r.json['locations']) == 4)
 assert('locations' in r.json and "link" in r.json['locations'][0] and 'id' in r.json['locations'][0] and 'name' in r.json['locations'][0])
 assert(r.json['locations'][3]["name"] == "CFA")
 assert(r.json['locations'][3]["id"] == 8)
-
-#Test for the find_type function
+#Test for the find_location function
 r = client.get('/location/5')
 assert(r.status_code == 200)
 assert(r.json['name'] == "Science Center")
@@ -425,7 +424,7 @@ assert(r.json['id'] == 5)
 r = client.get('/location/988')
 assert(r.status_code == 404)
 assert(r.json['error'] == "locationId not found")
-#Tests the for the create_type_with_id function
+#Tests the for the create_location_with_id function
 r = client.put('/location/1', json = {"name" : "Crowe Hall"})
 assert(r.status_code == 201)
 assert(r.json['ok'] == 'location created')
@@ -439,4 +438,13 @@ assert(r.json['error'] == "There is already a location using this id.")
 r = client.put('/location/23')
 assert(r.status_code == 403)
 assert(r.json['error'] == 'must provide a name field')
+#Testing the delete_location function
+r = client.delete('/location/1')
+assert(r.status_code == 404)
+assert(r.json['error'] == "locationId not found")
+r = client.delete('/location/5')
+assert(r.status_code == 204)
+r = client.get('/location')
+assert(r.status_code == 200)
+assert(len(r.json['locations']) == 4)
 print("################ API TESTS DONE  #################")

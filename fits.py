@@ -174,6 +174,12 @@ def create_location_with_id(id):
    headers = {"Location" : url_for('find_location', id = id)}
    return make_json_response({ 'ok': 'location created' }, 201, headers)
 
+@app.route('/location/<id>', methods = ['DELETE'])
+def location_delete(id):
+   location = findLocation(id)
+   db.deleteLocation(location)
+   db.commit()
+   return make_json_response({'ok' : 'location deleted'}, 204)
 
 
 @app.route('/issue/<id>', methods = ['GET'])
