@@ -166,6 +166,14 @@ def find_location(id):
          for issue in location.issues]
       })
 
+@app.route('/location/<id>', methods = ['PUT'])
+def create_location_with_id(id):
+   location = checkLocationExsists(id)
+   name = getNameFromContents()
+   db.addLocation(location, name)
+   headers = {"Location" : url_for('find_location', id = id)}
+   return make_json_response({ 'ok': 'location created' }, 201, headers)
+
 
 
 @app.route('/issue/<id>', methods = ['GET'])
@@ -207,6 +215,12 @@ def checkTypeExsists(id):
    if type is not None:
       abort(403, "There is already a type using this id.")
    return type
+
+def checkLocationExsists(id):
+   location = db.getLocation(id)
+   if location is not None:
+      abort(403, "There is already a location using this id.")
+   return location
 
 
 
