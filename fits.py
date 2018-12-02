@@ -136,6 +136,37 @@ def type_delete(id):
    db.commit()
    return make_json_response({'ok' : 'type deleted'}, 204)
 
+#### Location Table Paths
+@app.route('/location', methods = ['GET'])
+def location_list():
+   locations = db.getLocations()
+   return make_json_response({
+      "locations": [
+         {
+            "link": url_for('find_location', id = location.id) ,
+            "id" : location.id,
+            "name" : location.name}
+         for location in locations
+      ]
+   })
+
+@app.route('/location/<id>', methods = ['GET'])
+def find_location(id):
+   location = findLocation(id)
+   return make_json_response({
+      "id" : location.id,
+      "link" : url_for('find_location', id = location.id),
+      "name" : location.name,
+      "issues" : [
+      {
+         "id" : issue.id,
+         "link" : url_for('find_issue', id = issue.id),
+         "description" : issue.description,
+         "location" : issue.location}
+         for issue in location.issues]
+      })
+
+
 
 @app.route('/issue/<id>', methods = ['GET'])
 def find_issue(id):
@@ -157,6 +188,12 @@ def findType(id):
    if type is None:
       abort(404, "typeId not found")
    return type
+
+def findLocation(id):
+   location = db.getLocation(id)
+   if location is None:
+      abort(404, "locationId not found")
+   return location
 
 #Helper funciton used to see if a user already exsist when trying to make a new user
 def checkUserExsists(username):
