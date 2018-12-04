@@ -186,10 +186,35 @@ def location_delete(id):
    db.commit()
    return make_json_response({'ok' : 'location deleted'}, 204)
 
+#### Issue Table Paths
+@app.route('/issue', methods = ['GET'])
+def issue_list():
+   issues = db.getIssues()
+   return make_json_response({
+      "issues": [
+         {
+            "link": url_for('find_issue', id = issue.id) ,
+            "id" : issue.id,
+            "userId" : issue.userId,
+            "type" : issue.type,
+            "description" : issue.description,
+            "location" : issue.location}
+         for issue in issues
+      ]
+   })
+
 
 @app.route('/issue/<id>', methods = ['GET'])
 def find_issue(id):
-   return True
+   issue = findIssue(id)
+   return make_json_response({
+      "id" : issue.id,
+      "userId" : issue.userId,
+      "link" : url_for('find_issue', id = issue.id),
+      "type" : issue.type,
+      "description" : issue.description,
+      "location" : issue.location
+      })
 
 
 
@@ -213,6 +238,12 @@ def findLocation(id):
    if location is None:
       abort(404, "locationId not found")
    return location
+
+def findIssue(id):
+   issue = db.getIssue(id)
+   if issue is None:
+      abort(404, "issueId not found")
+   return issue
 
 #Helper funciton used to see if a user already exsist when trying to make a new user
 def checkUserExsists(username):
