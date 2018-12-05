@@ -216,6 +216,17 @@ def find_issue(id):
       "location" : issue.location
       })
 
+@app.route('/issue/<id>', methods = ['PUT'])
+def create_issue_with_id(id):
+   issue = checkIssueExsists(id)
+   userID = getUsernameFromContents()
+   type = getTypeFromContents()
+   description = getDescriptionFromContents()
+   location = getLocationFromContents()
+   db.addIssue(id, userID, type, description, location)
+   headers = {"Location" : url_for('find_issue', id = id)}
+   return make_json_response({ 'ok': 'issue created' }, 201, headers)
+
 
 
 
@@ -264,6 +275,11 @@ def checkLocationExsists(id):
       abort(403, "There is already a location using this id.")
    return location
 
+def checkIssueExsists(id):
+   issue = db.getIssue(id)
+   if issue is not None:
+      abort(403, "There is already a issue using this id.")
+   return issue
 
 
 ##Helper functions used for user verification
@@ -296,6 +312,30 @@ def getNameFromContents():
    if contents is None or "name" not in contents:
       abort(403, 'must provide a name field')
    return contents['name']
+
+def getUsernameFromContents():
+   contents = request.get_json()
+   if contents is None or "username" not in contents:
+      abort(403, 'must provide a username field')
+   return contents['username']
+
+def getTypeFromContents():
+   contents = request.get_json()
+   if contents is None or "type" not in contents:
+      abort(403, 'must provide a type field')
+   return contents['type']
+
+def getDescriptionFromContents():
+   contents = request.get_json()
+   if contents is None or "description" not in contents:
+      return None
+   return contents['description']
+
+def getLocationFromContents():
+   contents = request.get_json()
+   if contents is None or "location" not in contents:
+      return None
+   return contents['location']
 
 #Helper function that checks if a given password is correct
 def checkPassword(user, password):
