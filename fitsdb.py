@@ -27,10 +27,10 @@ class Issue(Base):
    __tablename__ = 'issues'
    
    id = Column(Integer, nullable = False, primary_key = True)
-   userId = Column(String, ForeignKey(User.username, ondelete = "CASCADE"), nullable = False)
-   type = Column(String, ForeignKey("types.name", ondelete = "CASCADE"), nullable = False)
+   userId = Column(String, ForeignKey(User.username), nullable = False)
+   type = Column(String, ForeignKey("types.name"), nullable = False)
    description = Column(String, nullable = True)
-   location = Column(String, ForeignKey("locations.name", ondelete = "CASCADE"), nullable = True)
+   location = Column(String, ForeignKey("locations.name"), nullable = True)
 
    user = relationship("User", back_populates="issues")
    typeInfo = relationship("Type", back_populates="issues")

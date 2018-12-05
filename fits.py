@@ -203,7 +203,6 @@ def issue_list():
       ]
    })
 
-
 @app.route('/issue/<id>', methods = ['GET'])
 def find_issue(id):
    issue = findIssue(id)
@@ -239,6 +238,38 @@ def issue_delete(id):
    db.commit()
    return make_json_response({'ok' : 'issue deleted'}, 204)
 
+#Path Functions to Help Search For Issues Based on Location, User, and Type
+@app.route('/issue/user/<username>', methods = ['GET'])
+def user_issues(username):
+   user = findUser(username)
+   return make_json_response({
+      "issues": [
+         {
+            "link": url_for('find_issue', id = issue.id) ,
+            "id" : issue.id,
+            "userId" : issue.userId,
+            "type" : issue.type,
+            "description" : issue.description,
+            "location" : issue.location}
+         for issue in user.issues
+      ]
+   })
+
+@app.route('/issue/type/<id>', methods = ['GET'])
+def type_issues(id):
+   type = findType(id)
+   return make_json_response({
+      "issues": [
+         {
+            "link": url_for('find_issue', id = issue.id) ,
+            "id" : issue.id,
+            "userId" : issue.userId,
+            "type" : issue.type,
+            "description" : issue.description,
+            "location" : issue.location}
+         for issue in type.issues
+      ]
+   })
 
 
 #Helper functions
