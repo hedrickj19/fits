@@ -232,6 +232,13 @@ def create_issue():
    id = generateID("issue")
    return create_issue_with_id(id)
 
+@app.route('/issue/<id>', methods = ['DELETE'])
+def issue_delete(id):
+   issue = findIssue(id)
+   db.deleteIssue(issue)
+   db.commit()
+   return make_json_response({'ok' : 'issue deleted'}, 204)
+
 
 
 #Helper functions
