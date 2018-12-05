@@ -227,7 +227,10 @@ def create_issue_with_id(id):
    headers = {"Location" : url_for('find_issue', id = id)}
    return make_json_response({ 'ok': 'issue created' }, 201, headers)
 
-
+@app.route('/issue', methods = ['POST'])
+def create_issue():
+   id = generateID("issue")
+   return create_issue_with_id(id)
 
 
 
@@ -351,6 +354,9 @@ def generateID(table):
          id = random.randint(1,10000)
    if table == "location":
       while db.getLocation(id) is not None:
+         id = random.randint(1,10000)
+   if table == "issue":
+      while db.getIssue(id) is not None:
          id = random.randint(1,10000)
    return id
 
