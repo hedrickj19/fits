@@ -123,6 +123,11 @@ class Db:
          .filter_by(id = id)\
          .one_or_none()
 
+   def getLocationName(self, name):
+      return self.session.query(Location)\
+         .filter_by(name = name)\
+         .one_or_none()
+
    def addLocation(self, id, name):
       location = Location(id = id, name = name)
       self.session.add(location)

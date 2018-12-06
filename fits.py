@@ -271,6 +271,22 @@ def type_issues(name):
       ]
    })
 
+@app.route('/issue/location/<name>', methods = ['GET'])
+def location_issues(name):
+   location = findLocationName(name)
+   return make_json_response({
+      "issues": [
+         {
+            "link": url_for('find_issue', id = issue.id) ,
+            "id" : issue.id,
+            "userId" : issue.userId,
+            "type" : issue.type,
+            "description" : issue.description,
+            "location" : issue.location}
+         for issue in location.issues
+      ]
+   })
+
 
 #Helper functions
 def findUser(username):
@@ -295,6 +311,12 @@ def findLocation(id):
    location = db.getLocation(id)
    if location is None:
       abort(404, "locationId not found")
+   return location
+
+def findLocationName(name):
+   location = db.getLocationName(name)
+   if location is None:
+      abort(404, "There is no location with the given name")
    return location
 
 def findIssue(id):
