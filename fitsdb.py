@@ -15,12 +15,7 @@ class User(Base):
    password = Column(String, nullable = False)
 
    issues = relationship("Issue", back_populates="user")
-   # def __repr__(self):
-   #    if self.description is not None:
-   #       bucket_str = "Bucket ID: " + self.id + "\nDescription: " + self.description + "\nPassword Hash: " + self.passwordHash + '\n'
-   #    else:
-   #       bucket_str = "Bucket ID: " + self.id + "\nDescription: " + "None" + "\nPassword Hash: " + self.passwordHash + '\n'
-   #    return bucket_str
+
 
 
 class Issue(Base):
@@ -36,10 +31,6 @@ class Issue(Base):
    typeInfo = relationship("Type", back_populates="issues")
    locationInfo = relationship("Location", back_populates="issues")
 
-   # def __repr__(self):
-   #    shortcut_str = "Link Hash: " + self.linkHash + "\nBucker ID: " + self.bucketId + "\nLink: "\
-   #     + self.link + "\nDescription: " + self.description + '\n'
-   #    return shortcut_str
 
 class Type(Base):
    __tablename__ = 'types'
