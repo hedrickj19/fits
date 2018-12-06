@@ -255,9 +255,9 @@ def user_issues(username):
       ]
    })
 
-@app.route('/issue/type/<id>', methods = ['GET'])
-def type_issues(id):
-   type = findType(id)
+@app.route('/issue/type/<name>', methods = ['GET'])
+def type_issues(name):
+   type = findTypeName(name)
    return make_json_response({
       "issues": [
          {
@@ -283,6 +283,12 @@ def findType(id):
    type = db.getType(id)
    if type is None:
       abort(404, "typeId not found")
+   return type
+
+def findTypeName(name):
+   type = db.getTypeName(name)
+   if type is None:
+      abort(404, "There is no type with the given name")
    return type
 
 def findLocation(id):

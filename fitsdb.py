@@ -102,6 +102,11 @@ class Db:
          .filter_by(id = id)\
          .one_or_none()
 
+   def getTypeName(self, name):
+      return self.session.query(Type)\
+         .filter_by(name = name)\
+         .one_or_none()
+
    def addType(self, id, name):
       type = Type(id = id, name = name)
       self.session.add(type)
