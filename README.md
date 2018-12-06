@@ -10,7 +10,7 @@ API Paths and Methods:
   * /user
     -GET: Returns a list of all user currently in the system
     
-  * /user/<username>
+  * /user/'<username>'
     -GET: Returns the user information and issues entered by the user with the given username (Password must be given in the query)
     -PUT: Creates a new user with the given username (first, last, and password information must also be passed in json of the request)
     -DELETE: Deletes the user with the given username (Password must be given in the query)
@@ -19,7 +19,7 @@ API Paths and Methods:
     -GET: Returns a list of all types currently in the system
     -POST: Creates a type object with a random id (name information must be passed in the json of the request)
   
-  * /type/<id>
+  * /type/'<id>'
     -GET: Returns the type information and issues entered under that type with the given id
     -PUT: Creates a type object with the given id (name information must be passed in the json of the request)
     -DELETE: Deletes the type object with the given id
